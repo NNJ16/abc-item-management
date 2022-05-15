@@ -24,7 +24,7 @@ env:
   GKE_ZONE: us-central1-c   # TODO: update to cluster zone
   DEPLOYMENT_NAME: abc-item-management # TODO: update to deployment name
   REPOSITORY: abc-item-management # TODO: update to Artifact Registry docker repository
-  IMAGE: static-site
+  IMAGE: abc-item-management
 
 jobs:
   setup-build-publish-deploy:
