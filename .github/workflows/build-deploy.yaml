@@ -45,8 +45,9 @@ jobs:
       name: 'Authenticate to Google Cloud'
       uses: 'google-github-actions/auth@v0'
       with:
-        workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
-        service_account: 'my-service-account@my-project.iam.gserviceaccount.com'
+        token_format: 'access_token'
+        workload_identity_provider: 'projects/1049521604036/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
+        service_account: 'nethsera@gmail.com'
 
     # Alternative option - authentication via credentials json
     # - id: 'auth'
@@ -54,19 +55,16 @@ jobs:
     #   with:
     #     credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
 
-    # Setup gcloud CLI
-    - name: Set up Cloud SDK
-      uses: google-github-actions/setup-gcloud@v0
-
-    # Configure Docker to use the gcloud command-line tool as a credential
-    # helper for authentication (https://cloud.google.com/artifact-registry/docs/docker/authentication)
     - name: Docker configuration
       run: |-
-        gcloud --quiet auth configure-docker $GAR_LOCATION-docker.pkg.dev
+        echo ${{steps.auth.outputs.access_token}} | docker login -u oauth2accesstoken --password-stdin https://$GAR_LOCATION-docker.pkg.dev
     # Get the GKE credentials so we can deploy to the cluster
     - name: Set up GKE credentials
-      run: |-
-        gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+      uses: google-github-actions/get-gke-credentials@v0
+      with:
+        cluster_name: ${{ env.GKE_CLUSTER }}
+        location: ${{ env.GKE_ZONE }}
+
     # Build the Docker image
     - name: Build
       run: |-
