@@ -47,7 +47,7 @@ jobs:
       with:
         token_format: 'access_token'
         workload_identity_provider: 'projects/1049521604036/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
-        service_account: 'my-service-account@my-project.iam.gserviceaccount.com'
+        service_account: 'my-service-account@root-welder-350216.iam.gserviceaccount.com'
 
     # Alternative option - authentication via credentials json
     # - id: 'auth'
