@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: abc-item-management
+spec:
+  selector:
+    matchLabels:
+      app: abc-item-management
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: abc-item-management
+    spec:
+      containers:
+        - name: abc-item-management
+          image: nnj16/abc-item-management:v1
+          ports:
+            - containerPort: 8080
